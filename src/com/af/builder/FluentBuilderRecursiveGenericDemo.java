@@ -14,7 +14,7 @@ class Person{
 }
 
 class PersonBuilder <SELF extends PersonBuilder<SELF>>{
-    Person person = new Person();
+    protected Person person = new Person();
 
     public SELF withName(String name){
         person.name = name;
