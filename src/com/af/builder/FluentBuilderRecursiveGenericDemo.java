@@ -13,12 +13,16 @@ class Person{
     }
 }
 
-class PersonBuilder{
+class PersonBuilder <SELF extends PersonBuilder<SELF>>{
     Person person = new Person();
 
-    public PersonBuilder withName(String name){
+    public SELF withName(String name){
         person.name = name;
-        return this;
+        return self();
+    }
+
+    public SELF self(){
+        return (SELF)this;
     }
 
     public Person build(){
@@ -26,7 +30,7 @@ class PersonBuilder{
     }
 }
 
-class EmployeeBuilder extends PersonBuilder{
+class EmployeeBuilder extends PersonBuilder<EmployeeBuilder>{
     public EmployeeBuilder withPosition(String position){
         person.position = position;
         return this;
@@ -35,7 +39,7 @@ class EmployeeBuilder extends PersonBuilder{
 
 public class FluentBuilderRecursiveGenericDemo {
     public static void main(String[] args) {
-        Person person = new EmployeeBuilder().withName("Ravi").build();
+        Person person = new EmployeeBuilder().withName("Ravi").withPosition("Technical Mentor").build();
         System.out.println(person);
     }
 }
