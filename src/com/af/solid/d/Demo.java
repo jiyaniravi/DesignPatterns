@@ -2,6 +2,8 @@ package com.af.solid.d;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.javatuples.Triplet;
 
 enum Relationship{
@@ -26,7 +28,7 @@ class Person{
     }
 }
 
-class Relationships{
+class Relationships implements RelationshipBrowser{
     private List<Triplet<Person, Relationship, Person>> relations = new ArrayList<>();
 
     public List<Triplet<Person, Relationship, Person>> getRelations() {
@@ -37,16 +39,27 @@ class Relationships{
         relations.add(new Triplet<>(parent, Relationship.PARENT, child));
         relations.add(new Triplet<>(child, Relationship.CHILD, parent));
     }
+
+    @Override
+    public List<Person> findAllChildrenOf(String name) {
+        return relations.stream()
+                .filter(x -> x.getValue0().getName().equals(name)
+                        && x.getValue1() == Relationship.PARENT)
+                .map(Triplet::getValue2)
+                .collect(Collectors.toList());
+    }
 }
 
-class Researh{
-    public Researh(Relationships relationships) {
-        List<Triplet<Person, Relationship, Person>> relations = relationships.getRelations();
-        relations.stream()
-                .filter(x -> x.getValue0().getName().equals("John")
-                 && x.getValue1() == Relationship.PARENT)
-                .forEach(x -> System.out.println("John has a child called : "+x.getValue2().getName()));
+class Research {
+    public Research(RelationshipBrowser relationshipBrowser) {
+       List<Person> children = relationshipBrowser.findAllChildrenOf("John");
+       children.stream()
+               .forEach(child -> System.out.println("John has child : "+child.getName()));
     }
+}
+
+interface RelationshipBrowser{
+     List<Person> findAllChildrenOf(String name);
 }
 
 public class Demo {
@@ -59,6 +72,6 @@ public class Demo {
         relationships.addParentAndChild(parent, child1);
         relationships.addParentAndChild(parent, child2);
 
-        new Researh(relationships);
+        new Research(relationships);
     }
 }
