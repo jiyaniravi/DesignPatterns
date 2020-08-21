@@ -26,9 +26,16 @@ class PersonBuilder{
     }
 }
 
+class EmployeeBuilder extends PersonBuilder{
+    public EmployeeBuilder withPosition(String position){
+        person.position = position;
+        return this;
+    }
+}
+
 public class FluentBuilderRecursiveGenericDemo {
     public static void main(String[] args) {
-        Person person = new PersonBuilder().withName("Ravi").build();
+        Person person = new EmployeeBuilder().withName("Ravi").build();
         System.out.println(person);
     }
 }
