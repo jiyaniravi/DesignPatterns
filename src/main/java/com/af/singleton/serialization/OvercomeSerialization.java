@@ -21,6 +21,10 @@ class BasicSingleton implements Serializable{
     public void setValue(int value) {
         this.value = value;
     }
+
+    protected Object readResolve(){
+        return INSTANCE;
+    }
 }
 
 public class OvercomeSerialization {
