@@ -2,8 +2,6 @@ package com.af.command.bank;
 
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 class BankAccount{
