@@ -14,6 +14,7 @@ class Property<T>{
     }
 
     public void setValue(T value) {
+        //Logging API or any other API
         this.value = value;
     }
 
@@ -32,24 +33,20 @@ class Property<T>{
 }
 
 class Creature{
-    private int agility;
+    private Property<Integer> agility = new Property<>(10);
 
-    public Creature(int agility) {
-        this.agility = 512;
+    public void setAgility(int value){
+        agility.setValue(value);
     }
 
-    public int getAgility() {
-        return agility;
+    public int getAgility(){
+        return agility.getValue();
     }
-
-    public void setAgility(int agility) {
-        this.agility = agility;
-    }
-
 }
 
 public class Demo {
     public static void main(String[] args) {
-
+        Creature creature = new Creature();
+        creature.setAgility(21);
     }
 }
