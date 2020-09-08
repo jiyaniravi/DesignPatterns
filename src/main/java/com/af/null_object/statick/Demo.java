@@ -18,6 +18,19 @@ class ConsoleLog implements Log{
     }
 }
 
+final class NullLog implements Log{
+
+    @Override
+    public void info(String message) {
+
+    }
+
+    @Override
+    public void warn(String message) {
+
+    }
+}
+
 class BankAccount{
     private Log log;
     private int balance;
@@ -34,8 +47,9 @@ class BankAccount{
 
 public class Demo {
     public static void main(String[] args) {
-        ConsoleLog consoleLog = new ConsoleLog();
-        BankAccount bankAccount = new BankAccount(null);
+        //ConsoleLog consoleLog = new ConsoleLog();
+        NullLog nullLog = new NullLog();
+        BankAccount bankAccount = new BankAccount(nullLog);
         bankAccount.deposit(100);
     }
 }
