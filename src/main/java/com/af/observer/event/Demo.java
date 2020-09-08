@@ -1,6 +1,5 @@
 package com.af.observer.event;
 
-import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
