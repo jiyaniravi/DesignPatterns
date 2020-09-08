@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-enum States {
+enum State {
     OFF_HOOK,       // Starting State
     ON_HOOK,        // Final State
     CONNECTING,
@@ -17,7 +17,7 @@ enum States {
     ON_HOLD
 }
 
-enum Triggers {
+enum Trigger {
     CALL_DIALED,
     HUNG_UP,
     CALL_CONNECTED,
@@ -29,34 +29,34 @@ enum Triggers {
 
 public class Demo {
 
-    private static Map<States, List<Pair<Triggers, States>>> rules
+    private static Map<State, List<Pair<Trigger, State>>> rules
                                 = new HashMap<>();
 
     static{
-        rules.put(States.OFF_HOOK, List.of(
-           new Pair<>(Triggers.CALL_DIALED, States.CONNECTING),
-           new Pair<>(Triggers.STOP_USING_PHONE, States.ON_HOOK)
+        rules.put(State.OFF_HOOK, List.of(
+           new Pair<>(Trigger.CALL_DIALED, State.CONNECTING),
+           new Pair<>(Trigger.STOP_USING_PHONE, State.ON_HOOK)
         ));
 
-        rules.put(States.CONNECTING, List.of(
-                new Pair<>(Triggers.HUNG_UP, States.OFF_HOOK),
-                new Pair<>(Triggers.CALL_CONNECTED, States.CONNECTED)
+        rules.put(State.CONNECTING, List.of(
+                new Pair<>(Trigger.HUNG_UP, State.OFF_HOOK),
+                new Pair<>(Trigger.CALL_CONNECTED, State.CONNECTED)
         ));
 
-        rules.put(States.CONNECTED, List.of(
-                new Pair<>(Triggers.LEFT_MESSAGE, States.OFF_HOOK),
-                new Pair<>(Triggers.HUNG_UP, States.OFF_HOOK),
-                new Pair<>(Triggers.PLACED_ON_HOLD, States.OFF_HOOK)
+        rules.put(State.CONNECTED, List.of(
+                new Pair<>(Trigger.LEFT_MESSAGE, State.OFF_HOOK),
+                new Pair<>(Trigger.HUNG_UP, State.OFF_HOOK),
+                new Pair<>(Trigger.PLACED_ON_HOLD, State.OFF_HOOK)
         ));
 
-        rules.put(States.ON_HOLD, List.of(
-                new Pair<>(Triggers.TAKEN_OFF_HOLD, States.CONNECTED),
-                new Pair<>(Triggers.HUNG_UP, States.OFF_HOOK)
+        rules.put(State.ON_HOLD, List.of(
+                new Pair<>(Trigger.TAKEN_OFF_HOLD, State.CONNECTED),
+                new Pair<>(Trigger.HUNG_UP, State.OFF_HOOK)
         ));
     }
 
-    private static States currentState = States.OFF_HOOK;
-    private static States exitState = States.ON_HOOK;
+    private static State currentState = State.OFF_HOOK;
+    private static State exitState = State.ON_HOOK;
 
     public static void main(String[] args) {
         BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
@@ -66,7 +66,7 @@ public class Demo {
             System.out.println("Select a Trigger");
 
             for(int i=0; i<rules.get(currentState).size();i++){
-                Triggers trigger = rules.get(currentState).get(i).getValue0();
+                Trigger trigger = rules.get(currentState).get(i).getValue0();
                 System.out.println(""+i+"."+trigger);
             }
 
