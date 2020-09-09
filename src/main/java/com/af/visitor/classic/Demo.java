@@ -59,6 +59,25 @@ class ExpressionPrinter implements ExpressionVisitor{
     }
 }
 
+class ExpressionCalculator implements ExpressionVisitor{
+
+    public double result;
+
+    @Override
+    public void visit(DoubleExpression e) {
+        result = e.value;
+    }
+
+    @Override
+    public void visit(AdditionExpression e) {
+        e.left.accept(this);
+        double lhsResult = result;
+        e.right.accept(this);
+        double rhsResult = result;
+        result = lhsResult + rhsResult;
+    }
+}
+
 public class Demo {
     public static void main(String[] args) {
         // 1+(2+3)
@@ -70,5 +89,9 @@ public class Demo {
         ExpressionPrinter ep = new ExpressionPrinter();
         ep.visit(additionExpression);
         System.out.println(ep);
+
+        ExpressionCalculator ec = new ExpressionCalculator();
+        ec.visit(additionExpression);
+        System.out.println(ep+" = "+ec.result);
     }
 }
