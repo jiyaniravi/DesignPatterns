@@ -1,4 +1,4 @@
-package com.af.visitor.classic;
+package com.af.visitor.doubledispatch;
 
 interface ExpressionVisitor {
     void visit(DoubleExpression e);
